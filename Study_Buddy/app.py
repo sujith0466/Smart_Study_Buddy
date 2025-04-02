@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for
-from database import init_db
+from database import init_db  # Import database initialization
 from recommender import generate_study_plan
 from scheduler import create_schedule
 from youtube_api import get_youtube_suggestions
@@ -12,7 +12,7 @@ app.config.from_object('config')
 
 # Initialize database within app context
 with app.app_context():
-    init_db()
+    init_db(app)  # Pass app to init_db() ❗️FIXED❗️
 
 # Register blueprints
 app.register_blueprint(auth, url_prefix='/auth')
