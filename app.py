@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for
-from database import init_db  # Import database initialization
+from Study_Buddy.database import init_db  # Adjusted import path
 from recommender import generate_study_plan
 from scheduler import create_schedule
 from youtube_api import get_youtube_suggestions
