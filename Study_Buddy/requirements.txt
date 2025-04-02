@@ -1,7 +1,10 @@
-flask
+Flask
+Flask-SQLAlchemy
+Flask-Login
+Flask-WTF
 gunicorn
-numpy
-sqlite3
-werkzeug
 requests
+google-api-python-client
+itsdangerous
 python-dotenv
+Werkzeug
