@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Study Plan</title>
+</head>
+<body>
+    <h1>Your Personalized Study Plan</h1>
+    <h2>Schedule:</h2>
+    <ul>
+        {% for day, subjects in schedule.items() %}
+            <li><strong>{{ day }}:</strong>
+                <ul>
+                    {% for subject in subjects %}
+                        <li>{{ subject.subject }} - {{ subject.hours }} hours</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Recommended YouTube Resources:</h2>
+    <ul>
+        {% for subject, links in resources.items() %}
+            <li><strong>{{ subject }}:</strong>
+                <ul>
+                    {% for link in links %}
+                        <li><a href="{{ link }}" target="_blank">{{ link }}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
