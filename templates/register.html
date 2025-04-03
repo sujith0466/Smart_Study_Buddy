@@ -5,11 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register | Smart Study Buddy</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        /* Strength Bar Styling */
+        .strength-container {
+            width: 90%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            margin-top: 5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #strength-bar {
+            height: 100%;
+            width: 0%;
+            border-radius: 5px;
+            transition: width 0.4s ease-in-out, background 0.4s ease-in-out;
+        }
+
+        /* Flash Messages */
+        .flash-messages {
+            color: white;
+            background: rgba(255, 0, 0, 0.7);
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <h2>Register</h2>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-messages {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
         <form action="{{ url_for('auth.register') }}" method="POST">
+            {{ form.hidden_tag() }}  <!-- CSRF Protection -->
+
             <label for="name">Full Name:</label>
             <input type="text" id="name" name="name" required>
             
@@ -36,28 +82,18 @@
             let strengthText = document.getElementById("strength-text");
             let strength = 0;
 
-            if (password.length >= 6) strength++;
+            if (password.length >= 8) strength++;
             if (password.match(/[A-Z]/)) strength++;
             if (password.match(/[0-9]/)) strength++;
             if (password.match(/[@$!%*?&]/)) strength++;
 
-            if (strength === 0) {
-                strengthBar.style.width = "0%";
-                strengthText.innerHTML = "Enter a password";
-                strengthBar.style.background = "transparent";
-            } else if (strength === 1) {
-                strengthBar.style.width = "33%";
-                strengthBar.style.background = "red";
-                strengthText.innerHTML = "Weak";
-            } else if (strength === 2) {
-                strengthBar.style.width = "66%";
-                strengthBar.style.background = "orange";
-                strengthText.innerHTML = "Medium";
-            } else {
-                strengthBar.style.width = "100%";
-                strengthBar.style.background = "green";
-                strengthText.innerHTML = "Strong";
-            }
+            let colors = ["transparent", "red", "orange", "green"];
+            let labels = ["Enter a password", "Weak", "Medium", "Strong"];
+            let widths = ["0%", "33%", "66%", "100%"];
+
+            strengthBar.style.width = widths[strength];
+            strengthBar.style.background = colors[strength];
+            strengthText.innerHTML = labels[strength];
         }
     </script>
 </body>
