@@ -6,25 +6,20 @@
     <title>Register | Smart Study Buddy</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <style>
-        /* Strength Bar Styling */
         .strength-container {
             width: 90%;
             height: 8px;
             background: rgba(255, 255, 255, 0.2);
             border-radius: 5px;
             margin-top: 5px;
-            position: relative;
             overflow: hidden;
         }
-
         #strength-bar {
             height: 100%;
             width: 0%;
             border-radius: 5px;
             transition: width 0.4s ease-in-out, background 0.4s ease-in-out;
         }
-
-        /* Flash Messages */
         .flash-messages {
             color: white;
             background: rgba(255, 0, 0, 0.7);
@@ -33,7 +28,6 @@
             border-radius: 5px;
             animation: fadeIn 1s ease-in-out;
         }
-
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -44,7 +38,6 @@
     <div class="container">
         <h2>Register</h2>
 
-        <!-- Flash Messages -->
         {% with messages = get_flashed_messages(with_categories=True) %}
             {% if messages %}
                 {% for category, message in messages %}
@@ -54,13 +47,10 @@
         {% endwith %}
 
         <form action="{{ url_for('auth.register') }}" method="POST">
-            {{ form.hidden_tag() }}  <!-- CSRF Protection -->
+            {{ form.hidden_tag() }}
 
-            <label for="name">Full Name:</label>
-            <input type="text" id="name" name="name" required>
-            
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
             
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required oninput="checkPasswordStrength()">
@@ -74,27 +64,5 @@
         </form>
         <p>Already have an account? <a href="{{ url_for('auth.login') }}">Login here</a></p>
     </div>
-
-    <script>
-        function checkPasswordStrength() {
-            let password = document.getElementById("password").value;
-            let strengthBar = document.getElementById("strength-bar");
-            let strengthText = document.getElementById("strength-text");
-            let strength = 0;
-
-            if (password.length >= 8) strength++;
-            if (password.match(/[A-Z]/)) strength++;
-            if (password.match(/[0-9]/)) strength++;
-            if (password.match(/[@$!%*?&]/)) strength++;
-
-            let colors = ["transparent", "red", "orange", "green"];
-            let labels = ["Enter a password", "Weak", "Medium", "Strong"];
-            let widths = ["0%", "33%", "66%", "100%"];
-
-            strengthBar.style.width = widths[strength];
-            strengthBar.style.background = colors[strength];
-            strengthText.innerHTML = labels[strength];
-        }
-    </script>
 </body>
 </html>
