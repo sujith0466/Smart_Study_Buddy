@@ -6,13 +6,17 @@ from youtube_api import get_youtube_suggestions
 from routes.auth import auth
 from routes.study import study
 from routes.api import api
+import os
 
 app = Flask(__name__)
 app.config.from_object('config')
 
 # Initialize database within app context
 with app.app_context():
-    init_db(app)  # Pass app to init_db() ❗️FIXED❗️
+    try:
+        init_db(app)  # Pass app to init_db()
+    except Exception as e:
+        print(f"Error initializing the database: {e}")
 
 # Register blueprints
 app.register_blueprint(auth, url_prefix='/auth')
@@ -30,7 +34,17 @@ def dashboard():
 
     if request.method == 'POST':
         subjects = request.form.getlist('subjects')
-        past_scores = list(map(int, request.form.getlist('scores')))
+        past_scores = request.form.getlist('scores')
+        
+        # Validate inputs
+        if not subjects or not past_scores:
+            return render_template('dashboard.html', error="Subjects and scores are required.")
+
+        try:
+            past_scores = list(map(int, past_scores))
+        except ValueError:
+            return render_template('dashboard.html', error="Scores must be integers.")
+
         study_method = request.form['study_method']
 
         recommendations = generate_study_plan(subjects, past_scores, study_method)
