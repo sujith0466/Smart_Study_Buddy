@@ -9,7 +9,8 @@ from routes.api import api
 import os
 
 app = Flask(__name__)
-app.config.from_object('config.Config')
+from config import Config
+app.config.from_object(Config)
 
 # Initialize database within app context
 with app.app_context():
