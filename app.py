@@ -1,5 +1,5 @@
-from flask import Flask, render_template, request, jsonify, session, redirect, url_for
-from database import init_db  # Import database initialization
+from flask import Flask, render_template, request, jsonify, session, redirect, url_for, flash
+from database import init_db, db  # Import database functions
 from recommender import generate_study_plan
 from scheduler import create_schedule
 from youtube_api import get_youtube_suggestions
@@ -9,12 +9,13 @@ from routes.api import api
 import os
 
 app = Flask(__name__)
-app.config.from_object('config')
+app.config.from_object('config.Config')
 
 # Initialize database within app context
 with app.app_context():
     try:
-        init_db(app)  # Pass app to init_db()
+        init_db(app)  # Ensure database initializes correctly
+        print("Database initialized successfully!")  # Debugging
     except Exception as e:
         print(f"Error initializing the database: {e}")
 
@@ -35,7 +36,7 @@ def dashboard():
     if request.method == 'POST':
         subjects = request.form.getlist('subjects')
         past_scores = request.form.getlist('scores')
-        
+
         # Validate inputs
         if not subjects or not past_scores:
             return render_template('dashboard.html', error="Subjects and scores are required.")
@@ -52,7 +53,9 @@ def dashboard():
         resources = get_youtube_suggestions(subjects)
 
         return render_template('result.html', schedule=schedule, resources=resources)
+    
     return render_template('dashboard.html')
 
+# Run the application
 if __name__ == '__main__':
     app.run(debug=True)
