@@ -7,43 +7,60 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <style>
         body {
-            background: url('{{ url_for('static', filename='images/background.jpg') }}') no-repeat center center fixed;
-            background-size: cover;
+            background: #121212;
             font-family: Arial, sans-serif;
             color: #fff;
             text-align: center;
+            overflow: hidden;
+        }
+        .background-animation {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: radial-gradient(circle, rgba(34,193,195,0.4) 0%, rgba(45,45,45,0.9) 100%);
+            animation: moveBackground 10s infinite alternate;
+        }
+        @keyframes moveBackground {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
         }
         .container {
             margin-top: 150px;
             padding: 20px;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.8);
             border-radius: 10px;
             display: inline-block;
+            box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2);
         }
         .btn {
             display: inline-block;
             margin: 10px;
             padding: 12px 20px;
-            background: #007BFF;
+            background: #0D6EFD;
             color: white;
             border: none;
             border-radius: 5px;
             text-decoration: none;
             font-weight: bold;
-            transition: 0.3s;
+            transition: 0.3s ease-in-out;
         }
         .btn:hover {
-            background: #0056b3;
+            background: #0A58CA;
+            transform: scale(1.05);
         }
         .btn.secondary {
-            background: #28a745;
+            background: #198754;
         }
         .btn.secondary:hover {
-            background: #218838;
+            background: #146C43;
         }
     </style>
 </head>
 <body>
+    <div class="background-animation"></div>
     <div class="container">
         <h1>Welcome to Smart Study Buddy</h1>
         <a href="{{ url_for('study.dashboard') }}" class="btn">Go to Dashboard</a>
