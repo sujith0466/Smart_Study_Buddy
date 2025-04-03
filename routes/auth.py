@@ -25,10 +25,14 @@ def register():
         hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
         new_user = User(username=username, password=hashed_password)
         db.session.add(new_user)
-        db.session.commit()
-
-        flash("Registration successful! Please log in.", "success")
-        return redirect(url_for('auth.login'))
+        try:
+            db.session.commit()
+            flash("Registration successful! Please log in.", "success")
+            return redirect(url_for('auth.login'))
+        except Exception as e:
+            db.session.rollback()  # Rollback in case of error
+            flash("An error occurred during registration. Please try again.", "danger")
+            return redirect(url_for('auth.register'))
 
     return render_template('register.html')
 
