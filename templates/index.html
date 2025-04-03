@@ -1,10 +1,56 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Study Buddy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            background: url('{{ url_for('static', filename='images/background.jpg') }}') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: #fff;
+            text-align: center;
+        }
+        .container {
+            margin-top: 150px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            display: inline-block;
+        }
+        .btn {
+            display: inline-block;
+            margin: 10px;
+            padding: 12px 20px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .btn.secondary {
+            background: #28a745;
+        }
+        .btn.secondary:hover {
+            background: #218838;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to Smart Study Buddy</h1>
-    <a href="/dashboard">Go to Dashboard</a>
+    <div class="container">
+        <h1>Welcome to Smart Study Buddy</h1>
+        <a href="{{ url_for('study.dashboard') }}" class="btn">Go to Dashboard</a>
+        <div class="auth-links">
+            <a href="{{ url_for('auth.login') }}" class="btn secondary">Login</a>
+            <a href="{{ url_for('auth.register') }}" class="btn secondary">Register</a>
+        </div>
+    </div>
 </body>
 </html>
