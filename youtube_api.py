@@ -3,14 +3,21 @@ import os
 
 YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")  # Use environment variable
 
-def get_youtube_suggestions(subjects):
+def get_youtube_suggestions(subjects, study_method='video'):
     base_url = "https://www.googleapis.com/youtube/v3/search"
     suggestions = {}
     
     for subject in subjects:
+        # Customize search query based on study method
+        search_term = f'{subject} tutorial'
+        if study_method == 'video':
+            search_term = f'{subject} video tutorial'
+        elif study_method == 'reading':
+            search_term = f'{subject} explained lecture'
+        
         params = {
             'part': 'snippet',
-            'q': f'{subject} tutorial',
+            'q': search_term,
             'key': YOUTUBE_API_KEY,
             'maxResults': 3
         }
