@@ -13,18 +13,18 @@ def index():
 def generate():
     subjects = request.form.getlist('subjects[]')
     scores = request.form.getlist('scores[]')
-    learning_style = request.form.get('learning_style')  # Updated to match index.html
-
-    if not subjects or not scores or not learning_style:
+    study_method = request.form.get('study_method')  # Changed to match form field name in index.html
+    
+    if not subjects or not scores or not study_method:
         return render_template('index.html', error="All fields are required.")
-
+    
     try:
         scores = list(map(int, scores))
     except ValueError:
         return render_template('index.html', error="Scores must be numbers.")
-
-    recommendations = generate_study_plan(subjects, scores, learning_style)
+    
+    recommendations = generate_study_plan(subjects, scores, study_method)
     schedule = create_schedule(recommendations)
-    resources = get_youtube_suggestions(subjects, learning_style)
-
-    return render_template('result.html', schedule=schedule, resources=resources, learning_style=learning_style)
+    resources = get_youtube_suggestions(subjects, study_method)
+    
+    return render_template('result.html', schedule=schedule, resources=resources, learning_style=study_method)
