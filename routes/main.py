@@ -13,7 +13,7 @@ def index():
 def generate():
     subjects = request.form.getlist('subjects[]')
     scores = request.form.getlist('scores[]')
-    study_method = request.form.get('study_method')
+    study_method = request.form.get('study_method')  # Matches index.html exactly
 
     if not subjects or not scores or not study_method:
         return render_template('index.html', error="All fields are required.")
@@ -25,6 +25,6 @@ def generate():
 
     recommendations = generate_study_plan(subjects, scores, study_method)
     schedule = create_schedule(recommendations)
-    resources = get_youtube_suggestions(subjects)
+    resources = get_youtube_suggestions(subjects, study_method)  # Make sure this accepts study_method
 
     return render_template('result.html', schedule=schedule, resources=resources)
