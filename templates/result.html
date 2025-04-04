@@ -24,8 +24,13 @@
         <div class="resources">
             <h2>Learning Resources ({{ learning_style|capitalize }})</h2>
             <ul>
-                {% for subject, url in resources.items() %}
-                    <li><a href="{{ url }}" target="_blank">{{ subject }} - Watch Now</a></li>
+                {% for subject, urls in resources.items() %}
+                    <li><strong>{{ subject }}:</strong></li>
+                    <ul>
+                        {% for url in urls %}
+                            <li><a href="{{ url }}" target="_blank">Watch Now</a></li>
+                        {% endfor %}
+                    </ul>
                 {% endfor %}
             </ul>
         </div>
