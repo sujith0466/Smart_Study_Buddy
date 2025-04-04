@@ -2,38 +2,50 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Study Plan</title>
-    <link rel="stylesheet" href="static/css/style.css">
+    <title>Your Study Plan</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h1>Your Personalized Study Plan</h1>
-        <h2>Schedule:</h2>
-        <ul>
-            {% for day, subjects in schedule.items() %}
-                <li><strong>{{ day }}:</strong>
-                    <ul>
-                        {% for subject in subjects %}
-                            <li>{{ subject.subject }} - {{ subject.hours }} hours</li>
-                        {% endfor %}
-                    </ul>
-                </li>
-            {% endfor %}
-        </ul>
+    <div class="overlay"></div>
 
-        <h2>Recommended YouTube Resources:</h2>
-        <ul>
-            {% for subject, links in resources.items() %}
-                <li><strong>{{ subject }}:</strong>
-                    <ul>
-                        {% for link in links %}
-                            <li><a href="{{ link }}" target="_blank">{{ link }}</a></li>
-                        {% endfor %}
-                    </ul>
-                </li>
-            {% endfor %}
-        </ul>
+    <div class="result-container">
+        <h1 class="result-title">Your Smart Study Plan</h1>
+        <p class="result-subtitle">Based on your inputs, here’s a personalized schedule and resource list:</p>
+
+        <div class="schedule">
+            <h2>Recommended Study Hours</h2>
+            <ul>
+                {% for subject, hours in schedule.items() %}
+                    <li><span class="subject">{{ subject }}</span>: {{ hours }} hour(s) per week</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="resources">
+            <h2>Learning Resources ({{ learning_style|capitalize }})</h2>
+            <ul>
+                {% for subject, url in resources.items() %}
+                    <li><a href="{{ url }}" target="_blank">{{ subject }} - Watch Now</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="back-btn">
+            <a href="/" class="submit-btn">Back to Home</a>
+        </div>
+
+        <div class="download-btn">
+            <button id="download-pdf" class="submit-btn">Download as PDF</button>
+        </div>
     </div>
+
+    <!-- PDF Script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script>
+        document.getElementById("download-pdf").addEventListener("click", () => {
+            const element = document.querySelector(".result-container");
+            html2pdf().from(element).save("Study_Plan.pdf");
+        });
+    </script>
 </body>
 </html>
