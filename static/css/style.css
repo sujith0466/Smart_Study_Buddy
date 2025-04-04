@@ -1,129 +1,215 @@
-/* Import Google Font */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Roboto&display=swap');
 
-/* General Styles */
 body {
-    font-family: 'Poppins', sans-serif;
-    background: radial-gradient(circle, #0f0f1a, #1b1b2a, #24243e); /* Dark Ambient Gradient */
-    text-align: center;
     margin: 0;
     padding: 0;
-    color: white;
+    font-family: 'Roboto', sans-serif;
+    background-color: #121212;
+    color: #fff;
+    overflow-x: hidden;
 }
 
-/* Container Styling */
-.container {
-    width: 350px;
-    margin: 100px auto;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: 15px;
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(12px);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+.overlay {
+    background: url('../images/bg1.jpg') no-repeat center center/cover;
+    filter: brightness(0.25);
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
 }
 
-.container:hover {
-    transform: scale(1.05);
-    box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+.container, .result-container {
+    max-width: 750px;
+    margin: 4rem auto;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.2);
+    animation: fadeIn 1.2s ease;
 }
 
-/* Headings */
-h2 {
-    margin-bottom: 20px;
-    font-size: 24px;
-    color: #ffcc00;
-}
-
-/* Input Fields */
-input {
-    width: 90%;
-    padding: 12px;
-    margin: 10px 0;
-    border: none;
-    border-radius: 8px;
+.title, .result-title {
+    font-family: 'Orbitron', sans-serif;
     text-align: center;
-    font-size: 16px;
-    background: rgba(255, 255, 255, 0.15);
-    color: white;
-    transition: box-shadow 0.3s ease, background 0.3s ease;
+    font-size: 2.5rem;
+    color: #00f2ff;
+    margin-bottom: 0.5rem;
 }
 
-input:focus {
-    outline: none;
-    box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
-    background: rgba(255, 255, 255, 0.2);
+.subtitle, .result-subtitle {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #bbb;
+    margin-bottom: 2rem;
 }
 
-/* Button Styling */
-button {
-    width: 100%;
-    padding: 12px;
-    background: linear-gradient(135deg, #ff4e8e, #ff7eb3);
-    color: white;
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.subject-entry {
+    display: flex;
+    gap: 1rem;
+}
+
+.subject-entry input {
+    flex: 1;
+    padding: 0.6rem;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
+    background: #1e1e1e;
+    color: #fff;
+}
+
+button, select {
+    padding: 0.8rem 1.2rem;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
     cursor: pointer;
-    font-size: 18px;
-    transition: background 0.3s ease, transform 0.2s ease;
+    transition: all 0.3s ease;
 }
 
-button:hover {
-    background: linear-gradient(135deg, #ff266d, #ff6aa5);
+#add-subject {
+    background: #333;
+    color: #00e5ff;
+    width: fit-content;
+}
+
+#add-subject:hover {
+    background: #00e5ff;
+    color: #000;
+}
+
+.preference {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+select {
+    background: #1e1e1e;
+    color: #fff;
+}
+
+.submit-btn {
+    background: linear-gradient(90deg, #00c6ff, #0072ff);
+    color: white;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
     transform: scale(1.05);
-    box-shadow: 0 0 15px rgba(255, 78, 142, 0.5);
+    box-shadow: 0 0 15px #00c6ff;
 }
 
-/* Links */
-p {
-    margin-top: 10px;
+.schedule ul, .resources ul {
+    list-style: none;
+    padding: 0;
 }
 
-a {
-    color: #ffcc00;
-    text-decoration: none;
+.schedule li, .resources li {
+    background: rgba(0, 0, 0, 0.3);
+    margin: 0.5rem 0;
+    padding: 0.75rem 1rem;
+    border-left: 4px solid #00f2ff;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.schedule li:hover, .resources li:hover {
+    transform: translateX(5px);
+    background: rgba(0, 255, 255, 0.05);
+}
+
+.subject {
     font-weight: bold;
+    color: #fff;
 }
 
-a:hover {
-    text-decoration: underline;
+.resources a {
+    text-decoration: none;
+    color: #00ccff;
+    transition: all 0.2s ease;
 }
 
-/* Fade-in Animation */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
+.resources a:hover {
+    text-shadow: 0 0 5px #00f7ff;
+    color: #fff;
 }
 
-.container {
-    animation: fadeIn 1s ease-out;
+.back-btn, .download-btn {
+    text-align: center;
+    margin-top: 2rem;
 }
 
-/* Password Strength Indicator */
-.password-container {
-    position: relative;
-}
-
-#password-strength {
-    height: 5px;
-    width: 90%;
-    background: #444;
-    border-radius: 5px;
-    margin-top: 5px;
-    transition: width 0.3s ease, background 0.3s ease;
-}
-
-.weak {
-    width: 30%;
-    background: red;
-}
-
-.medium {
-    width: 60%;
-    background: orange;
-}
-
-.strong {
+/* Loader Animation */
+.loader-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    background: green;
+    height: 100%;
+    background: rgba(10, 10, 10, 0.85);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 8px solid #00f2ff;
+    border-top: 8px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container, .result-container {
+        margin: 2rem 1rem;
+        padding: 1.5rem;
+    }
+
+    .subject-entry {
+        flex-direction: column;
+    }
+
+    .subject-entry input {
+        width: 100%;
+    }
+
+    .title {
+        font-size: 2rem;
+    }
+
+    .submit-btn {
+        font-size: 1rem;
+        padding: 0.6rem 1rem;
+    }
 }
