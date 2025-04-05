@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request
-from recommender import generate_study_plan
+from recommender import generate_weekly_timetable as generate_study_plan
 from scheduler import create_schedule, generate_weekly_timetable
 from youtube_api import get_youtube_suggestions
 
