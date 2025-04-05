@@ -21,6 +21,20 @@
             </ul>
         </div>
 
+        <div class="weekly-timetable">
+            <h2>Weekly Study Timetable</h2>
+            {% for day, sessions in timetable.items() %}
+                <div class="day-block">
+                    <h3>{{ day }}</h3>
+                    <ul>
+                        {% for session in sessions %}
+                            <li><span class="subject">{{ session.subject }}</span> — {{ session.duration }} minutes</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+        </div>
+
         <div class="resources">
             <h2>Learning Resources ({{ learning_style|capitalize }})</h2>
             <ul>
