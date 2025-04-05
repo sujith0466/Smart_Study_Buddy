@@ -65,7 +65,7 @@ form {
     color: #fff;
 }
 
-button, select {
+button, select, input[type="number"] {
     padding: 0.8rem 1.2rem;
     border: none;
     border-radius: 10px;
@@ -91,9 +91,17 @@ button, select {
     gap: 0.5rem;
 }
 
-select {
+select, input[type="number"] {
     background: #1e1e1e;
     color: #fff;
+    border: none;
+}
+
+input[type="number"]:focus,
+input[type="text"]:focus,
+select:focus {
+    outline: none;
+    box-shadow: 0 0 5px #00f2ff;
 }
 
 .submit-btn {
@@ -141,6 +149,35 @@ select {
 .resources a:hover {
     text-shadow: 0 0 5px #00f7ff;
     color: #fff;
+}
+
+.weekly-timetable {
+    margin-top: 2rem;
+}
+
+.weekly-timetable h2 {
+    color: #00f2ff;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.weekly-timetable ul {
+    list-style: none;
+    padding: 0;
+}
+
+.weekly-timetable li {
+    background: rgba(255, 255, 255, 0.03);
+    margin-bottom: 0.6rem;
+    padding: 0.75rem 1rem;
+    border-left: 4px solid #00bfff;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.weekly-timetable li:hover {
+    background: rgba(0, 255, 255, 0.1);
+    transform: translateX(5px);
 }
 
 .back-btn, .download-btn {
