@@ -13,6 +13,10 @@
         <p class="subtitle">Plan your study smartly — no login required</p>
 
         <form id="study-form" action="/generate" method="post">
+            {% if error %}
+                <p class="error-message" style="color: red; text-align: center;">{{ error }}</p>
+            {% endif %}
+
             <div id="subject-container">
                 <div class="subject-entry">
                     <input type="text" name="subjects[]" placeholder="Subject Name" required>
@@ -29,13 +33,27 @@
                     <option value="reading">Reading-Based</option>
                 </select>
             </div>
+
             <div class="preference">
-        <label for="daily_time">Available Time per Day (in minutes):</label>
-        <input type="number" name="daily_time" id="daily_time" value="120" min="30" max="600" required>
-        </div>
+                <label for="daily_time">Available Time per Day (in minutes):</label>
+                <input type="number" name="daily_time" id="daily_time" value="120" min="30" max="600" required>
+            </div>
 
             <button type="submit" class="submit-btn">Generate Plan</button>
         </form>
+
+        <!-- Section for Recommendations (future use) -->
+        <div id="recommendations">
+            <div id="video-recommendations" class="recommendations-section" style="display: none;">
+                <h3>Video Recommendations:</h3>
+                <ul id="video-list"></ul>
+            </div>
+
+            <div id="reading-recommendations" class="recommendations-section" style="display: none;">
+                <h3>Reading Recommendations:</h3>
+                <ul id="reading-list"></ul>
+            </div>
+        </div>
     </div>
 
     <!-- Loading Overlay -->
