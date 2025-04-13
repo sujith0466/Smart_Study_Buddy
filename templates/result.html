@@ -12,6 +12,7 @@
         <h1 class="result-title">Your Smart Study Plan</h1>
         <p class="result-subtitle">Based on your inputs, here’s a personalized schedule and resource list:</p>
 
+        <!-- Weekly Study Hours Section -->
         <div class="schedule">
             <h2>Recommended Study Hours</h2>
             <ul>
@@ -21,6 +22,7 @@
             </ul>
         </div>
 
+        <!-- Weekly Timetable Section -->
         <div class="weekly-timetable">
             <h2>Weekly Study Timetable</h2>
             {% for day, sessions in timetable.items() %}
@@ -35,6 +37,7 @@
             {% endfor %}
         </div>
 
+        <!-- Resource List Section -->
         <div class="resources">
             <h2>Learning Resources ({{ learning_style|capitalize }})</h2>
             <ul>
@@ -42,13 +45,22 @@
                     <li><strong>{{ subject }}:</strong></li>
                     <ul>
                         {% for url in urls %}
-                            <li><a href="{{ url }}" target="_blank">Watch Now</a></li>
+                            <li>
+                                <a href="{{ url }}" target="_blank">
+                                    {% if learning_style == 'video' %}
+                                        ▶ Watch Video
+                                    {% else %}
+                                        📘 Read Article
+                                    {% endif %}
+                                </a>
+                            </li>
                         {% endfor %}
                     </ul>
                 {% endfor %}
             </ul>
         </div>
 
+        <!-- Back and Download Buttons -->
         <div class="back-btn">
             <a href="/" class="submit-btn">Back to Home</a>
         </div>
@@ -58,7 +70,7 @@
         </div>
     </div>
 
-    <!-- PDF Script -->
+    <!-- PDF Download Script -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script>
         document.getElementById("download-pdf").addEventListener("click", () => {
