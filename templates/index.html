@@ -1,66 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Smart Study Buddy</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Chatbot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 </head>
-<body>
-    <div class="overlay"></div>
+<body style="background: linear-gradient(135deg, #e0e7ff 0%, #f8fafc 100%); min-height: 100vh; margin:0;">
+    <label for="theme" class="theme" style="position: absolute; top: 2rem; right: 2rem; z-index: 10;">
+        <span class="theme__toggle-wrap">
+            <input id="theme" class="theme__toggle" type="checkbox" role="switch" name="theme" value="dark">
+            <span class="theme__fill"></span>
+            <span class="theme__icon">
+                <span class="theme__icon-part"></span>
+                <span class="theme__icon-part"></span>
+                <span class="theme__icon-part"></span>
+                <span class="theme__icon-part"></span>
+                <span class="theme__icon-part"></span>
+                <span class="theme__icon-part"></span>
+                <span class="theme__icon-part"></span>
+                <span class="theme__icon-part"></span>
+                <span class="theme__icon-part"></span>
+            </span>
+        </span>
+    </label>
 
-    <div class="container">
-        <h1 class="title">Smart Study Buddy</h1>
-        <p class="subtitle">Plan your study smartly — no login required</p>
-
-        <form id="study-form" action="/generate" method="post">
-            {% if error %}
-                <p class="error-message" style="color: red; text-align: center;">{{ error }}</p>
-            {% endif %}
-
-            <div id="subject-container">
-                <div class="subject-entry">
-                    <input type="text" name="subjects[]" placeholder="Subject Name" required>
-                    <input type="number" name="scores[]" placeholder="Score (%)" min="0" max="100" required>
+    <div class="chat-container glassmorphism animate__animated animate__fadeInDown" style="backdrop-filter: blur(16px) saturate(180%); background: rgba(255,255,255,0.7); border-radius: 2rem; box-shadow: 0 8px 32px 0 rgba(31,38,135,0.18); max-width: 420px; margin: 5vh auto 0 auto; padding: 2rem 1.5rem;">
+        <div class="chat-header animate__animated animate__fadeInLeft" style="display: flex; align-items: center; justify-content: space-between;">
+            <h2 style="font-weight: 700; font-size: 1.5rem; color: #3b3b3b;"><i class="fas fa-robot" style="color: #6366f1;"></i> Smart Study Buddy</h2>
+            <button id="clear-chat" title="Clear Chat" class="button bounce" style="background: none; border: none; cursor: pointer; font-size: 1.2rem; color: #6366f1;"><i class="fas fa-trash"></i></button>
+        </div>
+        <div id="chatbox" class="chatbox animate__animated animate__fadeInUp" style="min-height: 320px; max-height: 340px; overflow-y: auto; margin: 1.2rem 0; padding: 1rem; border-radius: 1rem; background: rgba(255,255,255,0.6); box-shadow: 0 2px 8px rgba(99,102,241,0.07);" aria-live="polite">
+            <div class="message bot" style="margin-bottom: 1.2rem; display: flex; align-items: flex-start;">
+                <img src="/static/img/bot.png" alt="Bot" style="width: 36px; height: 36px; border-radius: 50%; margin-right: 0.8rem; box-shadow: 0 2px 8px rgba(99,102,241,0.12);">
+                <div style="background: #eef2ff; color: #3730a3; padding: 0.8rem 1.2rem; border-radius: 1rem 1rem 1rem 0; font-size: 1rem; max-width: 80%; box-shadow: 0 1px 4px rgba(99,102,241,0.06);">
+                    👋 Hi! I am your Smart Study Buddy. How can I help you today?
                 </div>
             </div>
-
-            <button type="button" id="add-subject">+ Add Subject</button>
-
-            <div class="preference">
-                <label>Learning Preference:</label>
-                <select name="study_method" required>
-                    <option value="video">Video-Based</option>
-                    <option value="reading">Reading-Based</option>
-                </select>
-            </div>
-
-            <div class="preference">
-                <label for="daily_time">Available Time per Day (in minutes):</label>
-                <input type="number" name="daily_time" id="daily_time" value="120" min="30" max="600" required>
-            </div>
-
-            <button type="submit" class="submit-btn">Generate Plan</button>
-        </form>
-
-        <!-- Section for Recommendations (future use) -->
-        <div id="recommendations">
-            <div id="video-recommendations" class="recommendations-section" style="display: none;">
-                <h3>Video Recommendations:</h3>
-                <ul id="video-list"></ul>
-            </div>
-
-            <div id="reading-recommendations" class="recommendations-section" style="display: none;">
-                <h3>Reading Recommendations:</h3>
-                <ul id="reading-list"></ul>
-            </div>
         </div>
+        <form class="input-container animate__animated animate__fadeInUp animate__delay-1s" style="display: flex; gap: 0.7rem; align-items: center;" autocomplete="off" onsubmit="event.preventDefault(); document.getElementById('send-button').click();">
+            <button id="mic-button" title="Voice Input" class="button pulse" aria-label="Voice Input" style="background: #6366f1; color: #fff; border: none; border-radius: 50%; width: 44px; height: 44px; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(99,102,241,0.12); transition: background 0.2s;"><i class="fas fa-microphone"></i></button>
+            <input type="text" id="user-input" placeholder="Type a message..." aria-label="Type a message" autocomplete="off" style="flex: 1; padding: 0.9rem 1.2rem; border-radius: 2rem; border: 1px solid #c7d2fe; font-size: 1rem; outline: none; transition: border 0.2s; background: #f1f5f9;">
+            <button id="send-button" title="Send Message" class="button pulse" aria-label="Send Message" style="background: linear-gradient(90deg, #6366f1 0%, #818cf8 100%); color: #fff; border: none; border-radius: 50%; width: 44px; height: 44px; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(99,102,241,0.12); transition: background 0.2s;"><i class="fas fa-paper-plane"></i></button>
+        </form>
     </div>
 
-    <!-- Loading Overlay -->
-    <div class="loader-overlay" id="loader">
-        <div class="spinner"></div>
+    <div id="response-container"></div>
+
+    <div class="floating-bubble animate__animated animate__bounceInUp animate__delay-2s" style="position: fixed; bottom: 2.5rem; right: 2.5rem; background: #6366f1; color: #fff; padding: 1rem 1.5rem; border-radius: 2rem; box-shadow: 0 4px 16px rgba(99,102,241,0.18); font-size: 1rem; z-index: 20;">
+        <i class="fas fa-lightbulb"></i> Tip: Try asking for a quiz, a motivational quote, or to switch theme!
     </div>
 
-    <script src="{{ url_for('static', filename='JS/main.js') }}"></script>
+    <div class="footer animate__animated animate__fadeInUp animate__delay-3s" style="text-align: center; margin-top: 2.5rem; color: #6366f1; font-size: 1rem;">
+        <span>Made with <i class="fas fa-heart" style="color:#e25555;"></i> for students</span>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
+    <script src="/static/js/script.js"></script>
 </body>
 </html>
