@@ -1,0 +1,171 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": ["Hi", "Hello", "Hey", "Howdy", "What's up?", "Yo", "Good morning", "Good evening", "How’s it going?", "How are you?", "Greetings", "Sup", "What's going on?", "How do you do?", "Hey buddy", "Hi there!"],
+      "responses": ["Hey there! 👋", "Hi! How can I brighten your day?", "What's up? Ready to study? 😄", "Hello! Need something?", "Hey! Let's get productive!"]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": ["Bye", "See you later", "Goodbye", "Catch you later", "Take care", "Farewell", "I'm out", "Later!", "Talk soon", "See ya", "Peace out", "Adios"],
+      "responses": ["Goodbye! Stay awesome! 👋", "Catch you later!", "Until next time, keep learning! 📚", "Take care!", "Bye! Smash those goals! 🚀"]
+    },
+    {
+      "tag": "thankyou",
+      "patterns": ["Thanks", "Thank you", "Thanks a lot", "Thank you so much", "That's helpful", "Appreciate it", "Much appreciated", "Thanks, bot!"],
+      "responses": ["You're very welcome! 😊", "Anytime! 🙌", "Glad I could help!", "Happy to help!", "Cheers!"]
+    },
+    {
+      "tag": "help",
+      "patterns": ["Can you help me?", "I need help", "What can you do?", "Show me commands", "How does this work?", "Assist me", "Bot, help!", "I'm confused", "Help please"],
+      "responses": ["Absolutely! Here’s what I can do:\n- 📅 Set reminders\n- 🧠 Quiz you\n- 📖 Share study tips\n- 😂 Tell jokes\n- 🎯 Create study plans\n...and more! What do you need?"]
+    },
+    {
+      "tag": "joke",
+      "patterns": ["Tell me a joke", "Make me laugh", "Something funny", "Crack a joke", "Got jokes?", "I need a laugh"],
+      "responses": ["Why don't scientists trust atoms? Because they make up everything! 😂", "Parallel lines have so much in common... it’s a shame they’ll never meet. 😢", "Why was the math book sad? It had too many problems."]
+    },
+    {
+      "tag": "quiz_me",
+      "patterns": ["Quiz me", "Give me a quiz", "Test my knowledge", "I want to be quizzed", "Give me questions"],
+      "responses": ["Alright! Here’s a quick question: What is the powerhouse of the cell? ⚡", "Let’s go! First question coming up... 🧠"]
+    },
+    {
+      "tag": "set_reminder",
+      "patterns": ["Remind me to study at 6", "Set a reminder", "Can you remind me?", "I need a reminder", "Help me set a study alert"],
+      "responses": ["Got it! 📅 I’ll remind you. (Psst... soon I’ll support actual alerts too 😉)"]
+    },
+    {
+      "tag": "about_bot",
+      "patterns": ["Who are you?", "What can you do?", "Tell me about yourself", "What is this bot?", "What’s your purpose?"],
+      "responses": ["I'm your Smart Study Buddy 🤖, here to guide, motivate, and quiz you through your study journey! 💡"]
+    },
+    {
+      "tag": "mood_check",
+      "patterns": ["How are you?", "What's your mood?", "Are you happy?", "How’s it going, bot?"],
+      "responses": ["I’m feeling great! Helping you always boosts my circuits! ⚡", "I'm all good—ready to assist!"]
+    },
+    {
+      "tag": "clear_history",
+      "patterns": ["Clear chat", "Delete my messages", "Reset conversation", "Start fresh", "Erase chat history"],
+      "responses": ["Chat history cleared! 🧹 Ready for a fresh start?"]
+    },
+    {
+      "tag": "switch_theme",
+      "patterns": ["Switch to dark mode", "Enable light theme", "Change theme", "Toggle dark mode", "Change appearance"],
+      "responses": ["Switched! 🌗 Your theme has been updated."]
+    },
+    {
+      "tag": "translate",
+      "patterns": ["Translate this to Spanish", "How do I say this in French?", "Translate to Hindi", "Can you translate this?"],
+      "responses": ["Sure! Just tell me what to translate and the target language. 🌍"]
+    },
+    {
+      "tag": "language_support",
+      "patterns": ["What languages do you support?", "Can you talk in other languages?", "Multilingual?", "Language options?"],
+      "responses": ["Right now I mostly speak English, but I’m learning new languages! 🌐"]
+    },
+    {
+      "tag": "study_schedule",
+      "patterns": ["Make me a study schedule", "Plan my week", "Weekly study planner", "Schedule my subjects", "Help me plan studies"],
+      "responses": ["Sure! Tell me your subjects and available hours, and I’ll create a plan! 📆"]
+    },
+    {
+      "tag": "motivation",
+      "patterns": ["Motivate me", "I feel lazy", "Give me some motivation", "I'm tired of studying", "Help me stay focused", "Inspire me"],
+      "responses": ["Every step you take is progress. You got this! 💪", "Push a little harder today for a better tomorrow 🚀", "Let’s smash your goals together! 🔥"]
+    },
+    {
+      "tag": "fallback",
+      "patterns": ["I don't understand", "Can you repeat that?", "What?", "Could you clarify?", "Huh?", "Sorry, what?"],
+      "responses": ["Hmm, I didn’t quite get that. Can you say it differently?", "I’m still learning—try rephrasing? 🤖"]
+    },
+    {
+      "tag": "daily_goal",
+      "patterns": [
+        "Set my goal for today", "Daily goal", "Help me plan my day", "What should I do today?", "Make a study goal"
+      ],
+      "responses": [
+        "Let's crush it today! 🎯 How about setting 2 subjects and 2 hours each?", 
+        "Start with your toughest topic first — momentum builds from there!"
+      ]
+    },
+    {
+      "tag": "break_reminder",
+      "patterns": [
+        "Remind me to take breaks", "Set break reminders", "Help me manage breaks", "I forget to rest", "Break time help"
+      ],
+      "responses": [
+        "Sure thing! ⏱ Take a 5-minute break every 25 minutes. It boosts focus!",
+        "Breaks = brain fuel! I’ll nudge you every now and then. 😉"
+      ]
+    },
+    {
+      "tag": "quote",
+      "patterns": [
+        "Give me a quote", "Inspire me with a quote", "Motivational quote", "Any quotes?", "Quote of the day"
+      ],
+      "responses": [
+        "“Success is not final, failure is not fatal: It is the courage to continue that counts.” — Winston Churchill",
+        "“Don’t watch the clock; do what it does. Keep going.” — Sam Levenson",
+        "“Believe you can and you’re halfway there.” — Theodore Roosevelt"
+      ]
+    },
+    {
+      "tag": "bored",
+      "patterns": [
+        "I'm bored", "Entertain me", "I feel bored", "Got anything fun?", "Distract me"
+      ],
+      "responses": [
+        "How about a quick quiz or a fun fact? 🤓", 
+        "Try stretching or taking a walk—then we can dive back in!",
+        "Wanna hear a joke or play a quick memory game?"
+      ]
+    },
+    {
+      "tag": "who_made_you",
+      "patterns": [
+        "Who made you?", "Who created you?", "Who built this bot?", "Who's your creator?", "Tell me about your developer"
+      ],
+      "responses": [
+        "I was built by a curious and creative developer who loves AI and learning! 😄",
+        "A coding wizard brought me to life with Python and some clever tricks. 🧙‍♂️"
+      ]
+    },
+    {
+      "tag": "study_music",
+      "patterns": [
+        "Suggest study music", "Any focus music?", "Music for studying", "Playlist for studying", "Help me concentrate with music"
+      ],
+      "responses": [
+        "Try lo-fi beats or classical music for focus! 🎧", 
+        "Check out YouTube channels like 'Lofi Girl' or 'Brain.fm'!", 
+        "Instrumental or ambient music works wonders while studying. 🎼"
+      ]
+    },
+    {
+      "tag": "self_care",
+      "patterns": [
+        "I feel stressed", "I'm anxious", "I'm tired", "Mental health help", "I feel overwhelmed"
+      ],
+      "responses": [
+        "It’s okay to pause. Breathe deeply and take things one step at a time. 💙", 
+        "You’re doing great. Talk to someone you trust and take breaks when needed. 🫶", 
+        "Remember: progress over perfection. Rest is part of the journey. 🧘"
+      ]
+    },
+    {
+      "tag": "how_to_study_subject",
+      "patterns": [
+        "How to study math?", "Tips to study physics", "Help with biology", "Study strategy for chemistry", "Best way to study history"
+      ],
+      "responses": [
+        "For Math ➗: Practice problems regularly. Focus on concepts, not memorization.",
+        "For Physics ⚛️: Understand the theory, then apply it with real-world problems.",
+        "For Chemistry 🧪: Use flashcards for formulas and reactions. Revise weekly.",
+        "For History 📜: Use timelines and storytelling. Break it into themes."
+      ]
+    }
+  ]
+}
+
