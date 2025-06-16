@@ -235,5 +235,5 @@ def get_response(user_input, user_id):
     return random.choice(responses) if responses else "Let’s continue!", intent_tag
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8000))  # Azure sets PORT env variable
-    socketio.run(app, host='0.0.0.0', port=port)
+    port = int(os.environ.get("PORT", 5000))
+    socketio.run(app, host="0.0.0.0", port=port)
