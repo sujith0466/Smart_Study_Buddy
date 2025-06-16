@@ -24,22 +24,41 @@
     <header class="chat-header">
       <img src="/static/img/bot.png" alt="Bot" class="bot-avatar"/>
       <h1>Astra</h1>
-      <button id="clear-chat" title="Clear Chat"><i class="fas fa-trash"></i></button>
+      <div class="chat-controls">
+        <button id="export-chat" title="Download Chat"><i class="fas fa-download"></i></button>
+        <button id="clear-chat" title="Clear Chat"><i class="fas fa-trash"></i></button>
+      </div>
     </header>
 
+    <!-- Chatbox -->
     <section id="chatbox" class="chatbox" aria-live="polite">
       <div class="message bot">
         <div class="bubble">👋 Hi, I’m <strong>Astra</strong>, your Smart Study Buddy. How can I help you today?</div>
       </div>
+      <!-- Typing indicator -->
+      <div class="message bot typing-indicator" id="typing-indicator" style="display: none;">
+        <div class="bubble typing">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
     </section>
 
+    <!-- Input Area -->
     <form class="input-area" onsubmit="event.preventDefault(); document.getElementById('send-button').click();">
-      <button id="mic-button" title="Voice Input"><i class="fas fa-microphone"></i></button>
+      <button id="mic-button" title="Voice Input" type="button"><i class="fas fa-microphone"></i></button>
       <textarea id="user-input" placeholder="Ask me anything..." required></textarea>
-      <button id="send-button" title="Send"><i class="fas fa-paper-plane"></i></button>
+      <button id="send-button" title="Send" type="submit"><i class="fas fa-paper-plane"></i></button>
     </form>
+
+    <!-- Quick Reply Buttons -->
+    <div id="quick-replies" class="quick-replies">
+      <button onclick="sendQuickReply('Give me a quiz')">🎯 Quiz</button>
+      <button onclick="sendQuickReply('Remind me at 6 PM')">⏰ Reminder</button>
+      <button onclick="sendQuickReply('Suggest study plan')">📚 Study Plan</button>
+    </div>
   </main>
 
+  <!-- Tip -->
   <div class="tip">
     💡 Ask: “Give me a quiz”, “Remind me at 6 PM”, or “How to study better?”
   </div>
@@ -48,6 +67,7 @@
     Made with 💡 for learners
   </footer>
 
+  <!-- External JS -->
   <script src="https://cdn.socket.io/4.7.2/socket.io.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
   <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
