@@ -4,6 +4,17 @@ import json, random, logging, os, io
 import spacy
 from difflib import get_close_matches
 from werkzeug.utils import secure_filename
+import pickle
+intent_model = pickle.load(open("intent_model.pkl", "rb"))
+classes = pickle.load(open("classes.pkl", "rb"))
+
+def predict_intent(message):
+    try:
+        return intent_model.predict([message])[0]
+    except Exception as e:
+        print("Prediction error:", e)
+        return None
+
 
 # Initialize app
 app = Flask(__name__)
