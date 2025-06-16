@@ -1,140 +1,162 @@
-// --- Study Buddy Chat Script ---
-// Improvements: input sanitization, error handling, null checks, redundant save prevention, comments
-
-// Requires: marked.js (for Markdown), DOMPurify (for XSS protection), socket.io
-
 const socket = io();
 let userId = localStorage.getItem("user_id") || `user_${Date.now()}`;
 localStorage.setItem("user_id", userId);
 
-// On page load, initialize theme, load chat history, and set up UI events
 window.onload = () => {
-  initTheme();
   loadHistory();
+  applyTheme();
   setupEvents();
 };
 
-// Attach event listeners to UI elements
 function setupEvents() {
-  const sendBtn = document.getElementById("send-button");
-  const clearBtn = document.getElementById("clear-chat");
-  const micBtn = document.getElementById("mic-button");
-  const themeToggle = document.getElementById("themeToggle");
-  const userInput = document.getElementById("user-input");
+  document.getElementById("send-button").onclick = sendMessage;
+  document.getElementById("mic-button").onclick = startVoiceInput;
+  document.getElementById("clear-chat").onclick = clearChat;
+  document.getElementById("export-chat")?.addEventListener("click", exportChat);
 
-  if (sendBtn) sendBtn.onclick = sendMessage;
-  if (clearBtn) clearBtn.onclick = clearChat;
-  if (micBtn && typeof speakInput === "function") micBtn.onclick = () => speakInput();
-  if (themeToggle) themeToggle.onchange = toggleTheme;
-  if (userInput) {
-    userInput.onkeydown = (e) => {
-      if (e.key === "Enter" && !e.shiftKey) {
-        e.preventDefault();
-        sendMessage();
-      }
-    };
-  }
+  document.getElementById("themeToggle").onchange = toggleTheme;
+
+  document.getElementById("user-input").onkeydown = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  };
 }
 
-// Send a message to the server and add it to chat
+// Quick Reply Support
+function sendQuickReply(text) {
+  document.getElementById("user-input").value = text;
+  sendMessage();
+}
+
+// Typing Indicator
+function showTyping() {
+  const typing = document.getElementById("typing-indicator");
+  if (typing) typing.style.display = "flex";
+}
+function hideTyping() {
+  const typing = document.getElementById("typing-indicator");
+  if (typing) typing.style.display = "none";
+}
+
 function sendMessage() {
   const input = document.getElementById("user-input");
-  if (!input) return;
   const message = input.value.trim();
   if (!message) return;
+
   appendMessage(message, "user");
+  showTyping();
   socket.emit("message", { message, user_id: userId });
   input.value = "";
 }
 
-// Listen for responses from the server
 socket.on("response", (data) => {
-  appendMessage(data.message || "🤖 I’m here to help!", "bot");
-  speak(data.message);
+  hideTyping();
+  appendMessage(data.message, "bot");
   saveToHistory(data.message, "bot");
+  speakText(data.message); // TTS
 });
 
-// Add a new message bubble to the chat UI
-function appendMessage(text, type, skipHistory = false) {
+function appendMessage(text, type) {
   const chatbox = document.getElementById("chatbox");
-  if (!chatbox) return;
-
   const msg = document.createElement("div");
-  msg.className = `message ${type}`;
-
-  // Sanitize and render Markdown safely
-  let bubbleContent = "🤖 I'm here to help.";
-  if (typeof marked !== "undefined" && typeof DOMPurify !== "undefined") {
-    bubbleContent = DOMPurify.sanitize(marked.parse(text || bubbleContent));
-  } else if (typeof marked !== "undefined") {
-    bubbleContent = marked.parse(text || bubbleContent); // Less safe!
-  } else {
-    bubbleContent = text || bubbleContent;
-  }
-  msg.innerHTML = `<div class="bubble">${bubbleContent}</div>`;
-
+  msg.className = `message ${type} animate__animated animate__fadeInUp`;
+  msg.innerHTML = `<div class="bubble">${marked.parse(text || "...")}</div>`;
   chatbox.appendChild(msg);
   chatbox.scrollTop = chatbox.scrollHeight;
-  if (!skipHistory) saveToHistory(text, type);
+  saveToHistory(text, type);
 }
 
-// Clear the chat UI and history
 function clearChat() {
   if (!confirm("Clear chat history?")) return;
-  const chatbox = document.getElementById("chatbox");
-  if (chatbox) chatbox.innerHTML = "";
-  try {
-    localStorage.removeItem("chatHistory");
-  } catch (e) {
-    console.error("Error clearing chat history:", e);
-  }
-  appendMessage("👋 Hi again! I’m Astra. How can I help?", "bot");
+  document.getElementById("chatbox").innerHTML = "";
+  localStorage.removeItem("chatHistory");
+  appendMessage("👋 Hi again! I'm Astra. Let's start fresh.", "bot");
 }
 
-// Save a message to chat history in localStorage, capped at 100 messages
 function saveToHistory(text, type) {
-  try {
-    const history = JSON.parse(localStorage.getItem("chatHistory") || "[]");
-    history.push({ text, type });
-    localStorage.setItem("chatHistory", JSON.stringify(history.slice(-100)));
-  } catch (e) {
-    console.error("Failed to save chat history:", e);
-  }
+  const history = JSON.parse(localStorage.getItem("chatHistory") || "[]");
+  history.push({ text, type });
+  localStorage.setItem("chatHistory", JSON.stringify(history.slice(-300)));
 }
 
-// Load chat history from localStorage on page load
 function loadHistory() {
-  try {
-    const history = JSON.parse(localStorage.getItem("chatHistory") || "[]");
-    history.forEach((msg) => appendMessage(msg.text, msg.type, true)); // skipHistory=true to avoid redundant save
-  } catch (e) {
-    console.error("Failed to load chat history:", e);
-  }
+  const history = JSON.parse(localStorage.getItem("chatHistory") || "[]");
+  history.forEach(msg => appendMessage(msg.text, msg.type));
 }
 
-// Use the browser's speech synthesis API to read bot messages aloud
-function speak(text) {
-  if (!("speechSynthesis" in window) || !text) return;
-  const utterance = new SpeechSynthesisUtterance(
-    text.replace(/<[^>]*>/g, "")
-  );
-  utterance.rate = 0.95;
+function startVoiceInput() {
+  if (!('webkitSpeechRecognition' in window)) {
+    alert("Your browser doesn't support speech recognition.");
+    return;
+  }
+
+  const recognition = new webkitSpeechRecognition();
+  recognition.lang = "en-US";
+  recognition.continuous = false;
+  recognition.interimResults = false;
+
+  recognition.onresult = function (event) {
+    const transcript = event.results[0][0].transcript;
+    document.getElementById("user-input").value = transcript;
+    sendMessage();
+  };
+
+  recognition.onerror = function () {
+    alert("Speech recognition error.");
+  };
+
+  recognition.start();
+}
+
+function speakText(text) {
+  if (!window.speechSynthesis) return;
+  const utterance = new SpeechSynthesisUtterance(stripHTML(text));
+  utterance.lang = "en-US";
   speechSynthesis.speak(utterance);
 }
 
-// Toggle between dark and light themes
-function toggleTheme() {
-  document.body.classList.toggle("light");
-  localStorage.setItem(
-    "theme",
-    document.body.classList.contains("light") ? "light" : "dark"
-  );
+function stripHTML(html) {
+  const div = document.createElement("div");
+  div.innerHTML = html;
+  return div.textContent || div.innerText || "";
 }
 
-// Initialize the theme on page load
-function initTheme() {
+function exportChat() {
+  const chatbox = document.getElementById("chatbox");
+  let text = "Astra Chat History\n----------------------\n";
+  const bubbles = chatbox.querySelectorAll(".message");
+
+  bubbles.forEach(bubble => {
+    const content = bubble.innerText;
+    const speaker = bubble.classList.contains("user") ? "You" : "Astra";
+    text += `${speaker}: ${content}\n\n`;
+  });
+
+  const blob = new Blob([text], { type: "text/plain" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "astra_chat.txt";
+  link.click();
+}
+
+// Theme handling
+function toggleTheme() {
+  document.body.classList.toggle("light");
+  const isLight = document.body.classList.contains("light");
+  localStorage.setItem("theme", isLight ? "light" : "dark");
+  document.getElementById("theme-status").textContent = isLight ? "Light" : "Dark";
+}
+
+function applyTheme() {
   const saved = localStorage.getItem("theme") || "dark";
   if (saved === "light") document.body.classList.add("light");
-  const themeToggle = document.getElementById("themeToggle");
-  if (themeToggle) themeToggle.checked = saved === "light";
+  document.getElementById("themeToggle").checked = saved === "light";
+  document.getElementById("theme-status").textContent = saved === "light" ? "Light" : "Dark";
 }
+
+// Clear chat history on close
+window.addEventListener("beforeunload", function () {
+  localStorage.removeItem("chatHistory");
+});
