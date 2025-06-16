@@ -2,37 +2,37 @@
   "intents": [
     {
       "tag": "greeting",
-      "patterns": ["Hi", "Hello", "Hey", "Good morning", "Good evening", "What's up?"],
+      "patterns": ["Hi", "Hello", "Hey", "Good morning", "Good evening", "What's up?", "Yo", "Hey buddy"],
       "responses": ["Hello! I'm Astra, your Smart Study Buddy.", "Hi there! Ready to learn?", "Hey! How can I help you today?"]
     },
     {
       "tag": "goodbye",
-      "patterns": ["Bye", "Goodbye", "See you", "Talk later", "Catch you later"],
+      "patterns": ["Bye", "Goodbye", "See you", "Talk later", "Catch you later", "See you soon"],
       "responses": ["Goodbye! Stay focused.", "See you soon. Keep studying!", "Take care!"]
     },
     {
       "tag": "thankyou",
-      "patterns": ["Thanks", "Thank you", "That's helpful", "Appreciate it"],
+      "patterns": ["Thanks", "Thank you", "That's helpful", "Appreciate it", "Cheers"],
       "responses": ["You're welcome!", "Glad to help.", "Anytime. Let's study more!"]
     },
     {
       "tag": "help",
-      "patterns": ["I need help", "Can you help me?", "What can you do?", "Show help"],
-      "responses": ["I can assist with quizzes, study plans, reminders, jokes, motivation, and more!"]
+      "patterns": ["I need help", "Can you help me?", "What can you do?", "Show help", "What are your features?"],
+      "responses": ["I can assist with quizzes, study plans, reminders, jokes, motivation, FAQs, and more!"]
     },
     {
       "tag": "set_reminder",
-      "patterns": ["Remind me to study at 6 PM", "Set a reminder", "Remind me tomorrow", "Remind me"],
-      "responses": ["Sure! Just tell me what time you'd like the reminder."]
+      "patterns": ["Remind me to study at 6 PM", "Set a reminder", "Remind me tomorrow", "Remind me", "Create reminder"],
+      "responses": ["Sure! Just tell me what and when you'd like to be reminded."]
     },
     {
       "tag": "study_schedule",
-      "patterns": ["Create a study plan", "Make a schedule", "I want a timetable", "Help me plan my study"],
+      "patterns": ["Create a study plan", "Make a schedule", "I want a timetable", "Help me plan my study", "Make a study routine"],
       "responses": ["Sure! What subject are you focusing on first?"]
     },
     {
       "tag": "joke",
-      "patterns": ["Tell me a joke", "Make me laugh", "Say something funny"],
+      "patterns": ["Tell me a joke", "Make me laugh", "Say something funny", "Cheer me up"],
       "responses": ["Why did the math book look sad? Because it had too many problems! 😂", "What do you call a computer that sings? A Dell. 🎶"]
     },
     {
@@ -41,8 +41,8 @@
       "responses": ["You're doing great! Just keep going one step at a time. 🚀", "Success comes from studying smart and staying consistent."]
     },
     {
-      "tag": "quiz_me",
-      "patterns": ["Quiz me", "I want a quiz", "Give me a test", "Test my knowledge"],
+      "tag": "quiz_request",
+      "patterns": ["Quiz me", "I want a quiz", "Give me a test", "Test my knowledge", "Start quiz"],
       "responses": ["Let's quiz! What subject would you like to be quizzed on?"]
     },
     {
@@ -52,23 +52,38 @@
     },
     {
       "tag": "about_bot",
-      "patterns": ["Who are you?", "What is Astra?", "What can you do?"],
+      "patterns": ["Who are you?", "What is Astra?", "What can you do?", "Tell me about yourself"],
       "responses": ["I'm Astra — your smart assistant for learning, planning, and staying motivated."]
     },
     {
       "tag": "clear_history",
-      "patterns": ["Clear my data", "Reset", "Forget everything", "Delete history"],
+      "patterns": ["Clear my data", "Reset", "Forget everything", "Delete history", "Wipe chat"],
       "responses": ["Chat history cleared. We start fresh!"]
     },
     {
       "tag": "study_material",
-      "patterns": ["Show me study materials", "I want to study", "Provide resources", "Give me something to read"],
+      "patterns": ["Show me study materials", "I want to study", "Provide resources", "Give me something to read", "Learning material"],
       "responses": ["Here's a video to watch and an article to read:\n- [Video](https://www.youtube.com)\n- [Article](https://www.geeksforgeeks.org)"]
     },
     {
       "tag": "switch_theme",
-      "patterns": ["Change theme", "Toggle light mode", "Switch dark mode"],
+      "patterns": ["Change theme", "Toggle light mode", "Switch dark mode", "Change to night mode"],
       "responses": ["You can use the toggle at the top right to switch themes anytime!"]
+    },
+    {
+      "tag": "explain_topic",
+      "patterns": ["Explain recursion", "What is machine learning?", "Define neural networks", "What is polymorphism?", "Tell me about DBMS"],
+      "responses": ["Sure! Let me explain that topic briefly.", "Here's a short explanation followed by a link for deeper understanding."]
+    },
+    {
+      "tag": "fun_fact",
+      "patterns": ["Tell me a fact", "Random fact", "Say something cool", "Interesting tech fact"],
+      "responses": ["Did you know? The first computer bug was an actual moth!", "The first 1GB hard drive weighed over 500 pounds!"]
+    },
+    {
+      "tag": "faq_help",
+      "patterns": ["How to upload file?", "Which languages do you support?", "How can I reset password?", "Where is calendar export?"],
+      "responses": ["Let me check our FAQ for that...", "Searching for the right answer..."]
     }
   ]
 }
