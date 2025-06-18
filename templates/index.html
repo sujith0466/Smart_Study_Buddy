@@ -10,64 +10,78 @@
   <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
 </head>
 <body>
-  <!-- Theme Toggle -->
-  <div class="theme-toggle">
-    <input type="checkbox" id="themeToggle" />
-    <label for="themeToggle" title="Toggle theme">
-      <i class="fas fa-moon"></i>
-      <i class="fas fa-sun"></i>
-    </label>
-  </div>
+  <div style="display: flex; flex-direction: row; align-items: flex-start; gap: 4em;">
+    <!-- Chat Interface -->
+    <main class="chat-container glass animate__animated animate__fadeIn" style="flex: 1 1 0;">
+      <header class="chat-header">
+        <img src="/static/img/bot.png" alt="Bot avatar for Astra" class="bot-avatar"/>
+        <h1>Astra</h1>
+        <button id="clear-chat" title="Clear Chat" aria-label="Clear Chat"><i class="fas fa-trash"></i></button>
+      </header>
 
-  <!-- Chat Interface -->
-  <main class="chat-container glass animate__animated animate__fadeIn">
-    <header class="chat-header">
-      <img src="/static/img/bot.png" alt="Bot" class="bot-avatar"/>
-      <h1>Astra</h1>
-      <div class="chat-controls">
-        <button id="export-chat" title="Download Chat"><i class="fas fa-download"></i></button>
-        <button id="clear-chat" title="Clear Chat"><i class="fas fa-trash"></i></button>
-      </div>
-    </header>
-
-    <!-- Chatbox -->
-    <section id="chatbox" class="chatbox" aria-live="polite">
-      <div class="message bot">
-        <div class="bubble">👋 Hi, I’m <strong>Astra</strong>, your Smart Study Buddy. How can I help you today?</div>
-      </div>
-      <!-- Typing indicator -->
-      <div class="message bot typing-indicator" id="typing-indicator" style="display: none;">
-        <div class="bubble typing">
-          <span></span><span></span><span></span>
+      <section id="chatbox" class="chatbox" aria-live="polite" style="min-height: 450px; max-height: 60vh; height: 60vh;">
+        <div class="message bot">
+          <div class="bubble">👋 Hi, I’m <strong>Astra</strong>, your Smart Study Buddy. How can I help you today?</div>
         </div>
+      </section>
+
+      <form class="input-area" onsubmit="event.preventDefault(); document.getElementById('send-button').click();">
+        <label for="user-input" class="visually-hidden">Type your message</label>
+        <button id="mic-button" title="Voice Input" aria-label="Voice Input"><i class="fas fa-microphone"></i></button>
+        <textarea id="user-input" placeholder="Ask me anything..." aria-label="Chat input"></textarea>
+        <button id="send-button" title="Send" aria-label="Send"><i class="fas fa-paper-plane"></i></button>
+      </form>
+
+      <!-- Theme Toggle -->
+      <div class="theme-toggle" style="margin-top: 1.5rem;">
+        <input type="checkbox" id="themeToggle" />
+        <label for="themeToggle" title="Toggle theme" aria-label="Toggle theme">
+          <i class="fas fa-moon"></i>
+          <span id="theme-status" style="margin: 0 8px; font-weight: bold; vertical-align: middle;">Light</span>
+          <i class="fas fa-sun"></i>
+        </label>
       </div>
-    </section>
 
-    <!-- Input Area -->
-    <form class="input-area" onsubmit="event.preventDefault(); document.getElementById('send-button').click();">
-      <button id="mic-button" title="Voice Input" type="button"><i class="fas fa-microphone"></i></button>
-      <textarea id="user-input" placeholder="Ask me anything..." required></textarea>
-      <button id="send-button" title="Send" type="submit"><i class="fas fa-paper-plane"></i></button>
-    </form>
+      <div class="tip">
+        💡 Ask: “Give me a quiz”, “Remind me at 6 PM”, or “How to study better?”
+      </div>
 
-    <!-- Quick Reply Buttons -->
-    <div id="quick-replies" class="quick-replies">
-      <button onclick="sendQuickReply('Give me a quiz')">🎯 Quiz</button>
-      <button onclick="sendQuickReply('Remind me at 6 PM')">⏰ Reminder</button>
-      <button onclick="sendQuickReply('Suggest study plan')">📚 Study Plan</button>
-    </div>
-  </main>
+      <footer class="footer">
+        Made with 💡 for learners
+      </footer>
+    </main>
 
-  <!-- Tip -->
-  <div class="tip">
-    💡 Ask: “Give me a quiz”, “Remind me at 6 PM”, or “How to study better?”
+    <aside style="display: flex; flex-direction: column; align-items: flex-end; min-width: 220px;">
+      <div style="display: grid; grid-template-columns: 48px 1fr; gap: 1em 1em; align-items: center; width: 100%;">
+        <!--
+          NOTE: Ensure sidebar button interactivity is handled in static/js/script.js.
+          Each button should be accessible and provide feedback.
+        -->
+        <button class="sidebar-btn" title="File Upload" aria-label="File Upload"><i class="fas fa-file-upload"></i></button><span class="sidebar-label">File Upload</span>
+        <button class="sidebar-btn" title="Image Generation" aria-label="Image Generation"><i class="fas fa-image"></i></button><span class="sidebar-label">Image Generation</span>
+        <button class="sidebar-btn" title="Translate" aria-label="Translate"><i class="fas fa-language"></i></button><span class="sidebar-label">Translate</span>
+        <button class="sidebar-btn" title="Text-to-Speech" aria-label="Text-to-Speech"><i class="fas fa-volume-up"></i></button><span class="sidebar-label">Text-to-Speech</span>
+        <button class="sidebar-btn" title="Reminders" aria-label="Reminders"><i class="fas fa-bell"></i></button><span class="sidebar-label">Reminders</span>
+        <button class="sidebar-btn" title="Calendar Export" aria-label="Calendar Export"><i class="fas fa-calendar-alt"></i></button><span class="sidebar-label">Calendar Export</span>
+        <button class="sidebar-btn" title="Quiz Customization" aria-label="Quiz Customization"><i class="fas fa-sliders-h"></i></button><span class="sidebar-label">Quiz Customization</span>
+        <button class="sidebar-btn" title="Progress" aria-label="Progress"><i class="fas fa-chart-line"></i></button><span class="sidebar-label">Progress</span>
+        <button class="sidebar-btn" title="Export" aria-label="Export"><i class="fas fa-download"></i></button><span class="sidebar-label">Export</span>
+        <button class="sidebar-btn" title="FAQ" aria-label="FAQ"><i class="fas fa-question-circle"></i></button><span class="sidebar-label">FAQ</span>
+        <button class="sidebar-btn" title="Fun" aria-label="Fun"><i class="fas fa-gamepad"></i></button><span class="sidebar-label">Fun</span>
+        <button class="sidebar-btn" title="Resources" aria-label="Resources"><i class="fas fa-book"></i></button><span class="sidebar-label">Resources</span>
+        <button class="sidebar-btn" title="Languages" aria-label="Languages"><i class="fas fa-globe"></i></button><span class="sidebar-label">Languages</span>
+        <button class="sidebar-btn" title="Group Chat" aria-label="Group Chat"><i class="fas fa-users"></i></button><span class="sidebar-label">Group Chat</span>
+        <button class="sidebar-btn" title="Avatar" aria-label="Avatar"><i class="fas fa-user-circle"></i></button><span class="sidebar-label">Avatar</span>
+      </div>
+    </aside>
   </div>
 
-  <footer class="footer">
-    Made with 💡 for learners
-  </footer>
+  <input type="file" id="sidebar-file-input" style="display:none" accept="image/*" />
 
-  <!-- External JS -->
+  <style>
+    .visually-hidden { position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+  </style>
+
   <script src="https://cdn.socket.io/4.7.2/socket.io.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
   <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
