@@ -32,7 +32,7 @@ ChatBot/
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/ChatBot.git
+git clone https://github.com/sujith0466/Study_Buddy
 cd ChatBot
 ```
 
